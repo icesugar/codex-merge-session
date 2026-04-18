@@ -517,7 +517,7 @@ fn merge_button_style(can_merge: bool) -> MergeButtonStyle {
             fill: egui::Color32::from_rgb(31, 87, 122),
             stroke_color: egui::Color32::from_rgb(22, 63, 88),
             text_color: egui::Color32::WHITE,
-            min_width: 148.0,
+            min_width: 160.0,
             min_height: 38.0,
         };
     }
@@ -526,7 +526,7 @@ fn merge_button_style(can_merge: bool) -> MergeButtonStyle {
         fill: egui::Color32::from_rgb(188, 198, 209),
         stroke_color: egui::Color32::from_rgb(164, 175, 188),
         text_color: egui::Color32::from_rgb(246, 248, 250),
-        min_width: 148.0,
+        min_width: 160.0,
         min_height: 38.0,
     }
 }
@@ -536,7 +536,7 @@ fn repair_button_style() -> RepairButtonStyle {
         fill: egui::Color32::from_rgb(255, 255, 255),
         stroke_color: egui::Color32::from_rgb(137, 156, 177),
         text_color: egui::Color32::from_rgb(61, 79, 97),
-        min_width: 148.0,
+        min_width: 160.0,
         min_height: 34.0,
         text_size: 15.0,
     }
@@ -683,7 +683,7 @@ mod tests {
         assert_eq!(style.fill, egui::Color32::from_rgb(31, 87, 122));
         assert_eq!(style.stroke_color, egui::Color32::from_rgb(22, 63, 88));
         assert_eq!(style.text_color, egui::Color32::WHITE);
-        assert_eq!(style.min_width, 148.0);
+        assert_eq!(style.min_width, 160.0);
         assert_eq!(style.min_height, 38.0);
     }
 
@@ -694,7 +694,7 @@ mod tests {
         assert_eq!(style.fill, egui::Color32::from_rgb(255, 255, 255));
         assert_eq!(style.stroke_color, egui::Color32::from_rgb(137, 156, 177));
         assert_eq!(style.text_color, egui::Color32::from_rgb(61, 79, 97));
-        assert_eq!(style.min_width, 148.0);
+        assert_eq!(style.min_width, 160.0);
         assert_eq!(style.min_height, 34.0);
         assert_eq!(style.text_size, 15.0);
     }
