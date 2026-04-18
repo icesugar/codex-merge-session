@@ -13,8 +13,8 @@ fn main() {
 }
 
 fn run() -> Result<(), String> {
-    let user_profile = std::env::var("USERPROFILE").map_err(|error| error.to_string())?;
-    let codex_root = std::path::PathBuf::from(user_profile).join(".codex");
+    let user_home = std::env::var("HOME").or_else(|_| std::env::var("USERPROFILE")).map_err(|error| error.to_string())?;
+    let codex_root = std::path::PathBuf::from(user_home).join(".codex");
     let store = CodexStore::new(codex_root);
     let mut viewport = egui::ViewportBuilder::default().with_inner_size([1120.0, 760.0]);
     if let Ok(icon) =

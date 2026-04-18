@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codex-merge-session 界面预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f8f9fa;
+            color: #2d3748;
+        }
+        
+        .header {
+            background-color: #f0f3f6;
+            padding: 16px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .header p {
+            font-size: 14px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+        
+        .container {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 12px 16px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        
+        .card h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 8px;
+        }
+        
+        .card p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+        
+        .grid {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+        
+        .grid th {
+            text-align: left;
+            font-size: 13px;
+            font-weight: 500;
+            color: #6b7280;
+            padding: 8px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .grid td {
+            padding: 12px 8px;
+            font-size: 14px;
+            color: #2d3748;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .grid tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .grid tr.selected {
+            background-color: #eef2f7;
+        }
+        
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 8px;
+        }
+        
+        .primary-button {
+            background-color: #1f577a;
+            color: white;
+            border: 1px solid #163f58;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 148px;
+            min-height: 38px;
+        }
+        
+        .primary-button:disabled {
+            background-color: #bcc6d1;
+            border-color: #a4afbc;
+            cursor: not-allowed;
+        }
+        
+        .secondary-button {
+            background-color: white;
+            color: #3d4f61;
+            border: 1px solid #899cb1;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            min-width: 100px;
+            min-height: 32px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #2d3748;
+            margin-bottom: 6px;
+        }
+        
+        .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: white;
+        }
+        
+        .form-buttons {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .preview-info {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #f1f5f9;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .preview-info h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        
+        .preview-info p {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .status-card {
+            margin-top: 16px;
+        }
+        
+        .status-success {
+            background-color: #e7f4f1;
+            border: 1px solid #c9e3db;
+            color: #225249;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .status-info {
+            background-color: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #334155;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .status-error {
+            background-color: #fef2f2;
+            border: 1px solid #fad1d1;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            width: 420px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .dialog h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 16px;
+        }
+        
+        .dialog p {
+            margin-bottom: 8px;
+        }
+        
+        .dialog-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f0;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>codex-merge-session</h1>
+        <p>Codex 根目录: /home/user/.codex</p>
+        <p>当前配置 provider: provider-a</p>
+    </div>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="card">
+                <h2>Provider 概览</h2>
+                <p>已发现 3 个 provider</p>
+                
+                <table class="grid">
+                    <tr>
+                        <th>Provider</th>
+                        <th>活跃</th>
+                        <th>归档</th>
+                        <th>最近更新时间</th>
+                    </tr>
+                    <tr class="selected">
+                        <td>provider-a</td>
+                        <td>12</td>
+                        <td>3</td>
+                        <td>2026-04-18 10:30:00</td>
+                    </tr>
+                    <tr>
+                        <td>provider-b</td>
+                        <td>8</td>
+                        <td>5</td>
+                        <td>2026-04-18 09:15:00</td>
+                    </tr>
+                    <tr>
+                        <td>provider-c</td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>2026-04-17 16:45:00</td>
+                    </tr>
+                </table>
+            </div>
+            
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                    <h2>会话操作</h2>
+                    <div class="action-buttons">
+                        <button class="primary-button">开始合并</button>
+                        <button class="secondary-button">尝试修复</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                    <div class="form-group">
+                        <label for="target-provider">目标 provider</label>
+                        <select id="target-provider">
+                            <option value="provider-a">provider-a</option>
+                            <option value="provider-b">provider-b</option>
+                            <option value="provider-c">provider-c</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-buttons">
+                        <button class="secondary-button">重新扫描</button>
+                        <button class="secondary-button">刷新预览</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 12px; border-top: 1px solid #e2e8f0; padding-top: 12px;">
+                    <div class="preview-info">
+                        <h3>预览信息</h3>
+                        <p>待迁移线程数: <strong>90</strong></p>
+                        <p>待迁移文件数: <strong>90</strong></p>
+                        <p>来源 provider: provider-b, provider-c</p>
+                        <p style="font-size: 13px; color: #6b7280;">备份目录: /home/user/.codex-merge-session/backups/1776492506</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card status-card">
+            <h2>执行结果与错误</h2>
+            <div class="status-success">
+                已完成本次合并，成功处理 90 条会话，更新了 90 个会话文件。备份已保存到 /home/user/.codex-merge-session/backups/1776492506
+            </div>
+        </div>
+    </div>
+    
+    <!-- 确认合并弹窗 -->
+    <div class="dialog">
+        <h3>确认合并</h3>
+        <p>目标 provider: provider-a</p>
+        <p>将迁移 90 条线程，涉及 2 个源 provider。</p>
+        <p style="font-size: 13px; color: #6b7280;">备份将写入: /home/user/.codex-merge-session/backups/1776492506</p>
+        <div class="dialog-buttons">
+            <button class="primary-button">确认执行</button>
+            <button class="secondary-button">取消</button>
+        </div>
+    </div>
+</body>
+</html>
